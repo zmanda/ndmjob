@@ -1,0 +1,130 @@
+#
+# Copyright (c) 1998,1999,2000
+#	Traakan, Inc., Los Altos, CA
+#	All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice unmodified, this list of conditions, and the following
+#    disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+#
+# THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+# ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
+# FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+# OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+# HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+# LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+# OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+# SUCH DAMAGE.
+#
+
+#
+# Project:  NDMJOB
+# Ident:    $Id: ndmjob-args,v 1.1 2003/10/14 19:12:40 ern Exp $
+#
+# Description:
+#	Example ndmjob-args file.
+#
+#	The sh(1) environment variable NDMJOB_ARGFILE may contain
+#	a pathname to this file containing the macro definitions.
+#	If NDMJOB_ARGFILE is not set, the file ndmjob-args in the
+#	current directory is used.
+#
+
+# AGENTS -- one place to change for hostnames, usernames, and passwords
+agent-filebox:	filebox,ndmp,sesame
+agent-jookbox:	jookbox,ndmp,shazam
+agent-tomservo:	tomservo,ndmp,mocha
+
+# ROBOT TYPES (quirks)
+# TODO: still need to establish options for quirks (e.g. -o park-pos)
+robot-quirk-archive-28849: -o use-eject=0
+robot-quirk-exabyte-exb10e:
+robot-quirk-exabyte-exb210:
+
+# ROBOTS
+# Notice the use of a macro for the -R option
+robot-tomservo-1: -R --agent-tomservo
+robot-tomservo-1: -r aha1,5,1
+robot-tomservo-1: --robot-quirk-archive-28849
+
+# TAPE DRIVES
+# Put -T off till the last minute
+tape-jookbox-1: -f /dev/rtape0
+
+# LOG/INDEX short hands
+log+index:	-L ndmjob.log -I ndmjob.ind
+just-log:	-L ndmjob.log -I-
+log-no-index:	-L ndmjob.log
+dbg:		-L dbg.log -I dbg.ind -d5
+# handy --v
+v: -v -Llog -I- -d6
+
+# EXCLUDES
+# These patterns are very common.
+std-excl: -e *.core
+std-excl: -e BUILD*/*.o
+std-excl: -e home/*/.netscape/cache
+
+# This example shows a specific exclude for a large directory containing
+# easily recovered stuff.
+bilbo-excl: -e home/bilbo/public-imports
+
+# DEVICE COMBOS -- Handy since using a tape in a robot w/o the
+# robot is hard. The -T is not given here since, when
+# using -D --jookbox, it would force using the TAPE agent
+# in remote mode (NDMP_ADDR_TCP). Whenever possible, we want to
+# use the TAPE agent in local mode (NDMP_ADDR_LOCAL) for performance
+_robotape-jookbox-1: --robot-jookbox-1 --tape-jookbox-1
+robotape-jookbox-1:  -T --agent jookbox --_robot-jookbox-1
+
+# FILE SETS -- Combinations of DATA agent, root (-C), and exclude patterns
+files-filebox-/u1: -D --agent-filebox
+files-filebox-/u1: -C /u1
+files-filebox-/u1: --std-excl --bilbo-excl
+
+
+# BACKUP CONFIGURATIONS
+bu-u1: --files-filebox-/u1
+bu-u1: --robotape-jookbox-1
+
+bu-home-dirs: --bu-u1
+bu-home-dirs: -F home
+
+
+# All set for requests like:
+#	ndmjob -c --log+index --bu-home-dirs -mT103+3@3
+#	ndmjob -cv --dbg --bu-u1 -mT100@2 home/bilbo
+#	ndmjob -q -D --agent-filebox
+#	ndmjob -q -T --agent-jookbox
+#	ndmjob -q --robotape-jookbox-1
+#	ndmjob -lv --robotape-jookbox-1 -m@2 -m@4
+
+
+cxtapex: -o tape-timeout=30 -o use-eject=1 -r aha1,2,0
+cxtape0: --cxtapex -f aha1t00 -o tape-addr=25
+cxtape1: --cxtapex -f aha1t10 -o tape-addr=26
+cxhost: conexus,,
+Tcxhost: -T --cxhost
+Dcxhost: -D --cxhost
+Rcxhost: -R --cxhost
+
+# Auspex
+auspex-2: auspex-2,root,jedi
+
+auspex-2-robot: -r /dev/raxac/fsp0c6t0
+Rauspex-2: -R --auspex-2 --auspex-2-robot
+
+auspex-2-tape1: -f /dev/raxmt/fxp0c6t1
+auspex-2-tape2: -f /dev/raxmt/fxp0c6t2
+
+T1auspex-2: -T --auspex-2 --auspex-2-tape1
+T2auspex-2: -T --auspex-2 --auspex-2-tape2
