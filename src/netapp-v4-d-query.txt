@@ -1,0 +1,95 @@
+#D   0:00:00.000 >C NDMP0_NOTIFY_CONNECTED 1
+#D   0:00:00.000    reason=NDMP0_CONNECTED protocol_version=4 text_reason=''
+#D   0:00:00.000 C> NDMP0_CONNECT_OPEN 1
+#D   0:00:00.000    version=4
+#D   0:00:00.039 >R NDMP0_CONNECT_OPEN 1 (2)
+#D   0:00:00.039    error=NDMP0_NO_ERR
+#D   0:00:00.039 C> NDMP4_CONNECT_CLIENT_AUTH 2
+#D   0:00:00.039    auth_type=NDMP4_AUTH_TEXT auth_id=root
+#D   0:00:00.078 >R NDMP4_CONNECT_CLIENT_AUTH 2 (3)
+#D   0:00:00.078    error=NDMP4_NO_ERR
+QR   0:00:00.078 
+QR   0:00:00.078 Data Agent anchor NDMPv4
+#D   0:00:00.078 C> NDMP4_CONFIG_GET_HOST_INFO 3
+#D   0:00:00.117 >R NDMP4_CONFIG_GET_HOST_INFO 3 (4)
+#D   0:00:00.117    error=NDMP4_NO_ERR hostname=anchor
+#D   0:00:00.118    os_type=NetApp os_vers=NetApp Release 6.3.3 hostid=0016802503
+QR   0:00:00.118   Host info
+QR   0:00:00.118     hostname   anchor
+QR   0:00:00.118     os_type    NetApp
+QR   0:00:00.118     os_vers    NetApp Release 6.3.3
+QR   0:00:00.118     hostid     0016802503
+QR   0:00:00.118 
+#D   0:00:00.118 C> NDMP4_CONFIG_GET_SERVER_INFO 4
+#D   0:00:00.157 >R NDMP4_CONFIG_GET_SERVER_INFO 4 (5)
+#D   0:00:00.157    <<unimplemented pp>>
+QR   0:00:00.157   Server info
+QR   0:00:00.157     vendor     Network Appliance
+QR   0:00:00.157     product    Network Appliance NDMP server F720
+QR   0:00:00.157     revision   4.0
+QR   0:00:00.157     auths      (2)  NDMP4_AUTH_TEXT NDMP4_AUTH_MD5
+QR   0:00:00.157 
+#D   0:00:00.157 C> NDMP4_CONFIG_GET_CONNECTION_TYPE 5
+#D   0:00:00.195 >R NDMP4_CONFIG_GET_CONNECTION_TYPE 5 (6)
+#D   0:00:00.195    error=NDMP4_NO_ERR addr_types[2]={ NDMP4_ADDR_LOCAL NDMP4_ADDR_TCP }
+QR   0:00:00.195   Connection types
+QR   0:00:00.195     addr_types (2)  NDMP4_ADDR_LOCAL NDMP4_ADDR_TCP
+QR   0:00:00.195 
+#D   0:00:00.195 C> NDMP4_CONFIG_GET_BUTYPE_INFO 6
+#D   0:00:00.195    <<INVALID MSG>>
+#D   0:00:00.240 >R NDMP4_CONFIG_GET_BUTYPE_INFO 6 (7)
+#D   0:00:00.240    <<INVALID MSG>>
+QR   0:00:00.240   Backup type info of smtape format
+QR   0:00:00.240     attrs      0x0
+QR   0:00:00.240     set        DATA_BLOCK_SIZE=240
+QR   0:00:00.240     set        TYPE=smtape
+QR   0:00:00.240 
+QR   0:00:00.240   Backup type info of dump format
+QR   0:00:00.240     attrs      0x47c
+QR   0:00:00.240     set        DMP_NAME=
+QR   0:00:00.240     set        DIRECT=N
+QR   0:00:00.240     set        VERBOSE=N
+QR   0:00:00.240     set        DEBUG=N
+QR   0:00:00.240     set        LIST=N
+QR   0:00:00.240     set        LIST_QTREES=N
+QR   0:00:00.240     set        EXTRACT=Y
+QR   0:00:00.240     set        RESTART=N
+QR   0:00:00.240     set        IGNORE_QTREES=N
+QR   0:00:00.240     set        MULTI_SUBTREE_NAMES=
+QR   0:00:00.240     set        EXTRACT_ACL=Y
+QR   0:00:00.240     set        DATA_BLOCK_SIZE=63
+QR   0:00:00.240     set        REPLICATE=N
+QR   0:00:00.240     set        TYPE=dump
+QR   0:00:00.240     set        HIST=N
+QR   0:00:00.240     set        LEVEL=0
+QR   0:00:00.240     set        EXCLUDE=
+QR   0:00:00.240     set        FORCE=N
+QR   0:00:00.240     set        UPDATE=N
+QR   0:00:00.240     set        NOWRITE=N
+QR   0:00:00.240     set        NON_QUOTA_TREE=N
+QR   0:00:00.240     set        BASE_DATE=-1
+QR   0:00:00.240     set        NO_ACLS=N
+QR   0:00:00.240 
+#D   0:00:00.240 C> NDMP4_CONFIG_GET_FS_INFO 7
+#D   0:00:00.240    <<INVALID MSG>>
+#D   0:00:00.324 >R NDMP4_CONFIG_GET_FS_INFO 7 (8)
+#D   0:00:00.324    <<INVALID MSG>>
+QR   0:00:00.324   File system /vol/vol1
+QR   0:00:00.324     physdev    
+QR   0:00:00.324     unsupported 0x0
+QR   0:00:00.324     type       WAFL
+QR   0:00:00.324     status     online
+QR   0:00:00.324     space      234280361984 total, 44734062592 used, 189546299392 avail
+QR   0:00:00.324     inodes     9433576 total, 318900 used
+QR   0:00:00.324     empty default env
+QR   0:00:00.324 
+QR   0:00:00.324   File system /vol/vol0
+QR   0:00:00.324     physdev    
+QR   0:00:00.324     unsupported 0x0
+QR   0:00:00.324     type       WAFL
+QR   0:00:00.324     status     online
+QR   0:00:00.324     space      26031153152 total, 132456448 used, 25898696704 avail
+QR   0:00:00.324     inodes     1048162 total, 3919 used
+QR   0:00:00.325     empty default env
+QR   0:00:00.325 
+SESS 0:00:00.325 Operation complete
