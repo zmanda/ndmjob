@@ -28,7 +28,7 @@
 
 /*
  * Project:  NDMJOB
- * Ident:    $Id: ndmp_ammend.h,v 1.1 2003/10/14 19:12:44 ern Exp $
+ * Ident:    $Id: ndmp_ammend.h,v 1.1.1.1 2003/10/14 19:12:44 ern Exp $
  *
  * Description:
  *

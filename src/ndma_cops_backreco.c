@@ -28,7 +28,7 @@
 
 /*
  * Project:  NDMJOB
- * Ident:    $Id: ndma_cops_backreco.c,v 1.1 2003/10/14 19:12:38 ern Exp $
+ * Ident:    $Id: ndma_cops_backreco.c,v 1.1.1.1 2003/10/14 19:12:38 ern Exp $
  *
  * Description:
  *

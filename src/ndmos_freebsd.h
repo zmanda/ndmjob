@@ -28,7 +28,7 @@
 
 /*
  * Project:  NDMJOB
- * Ident:    $Id: ndmos_freebsd.h,v 1.1 2003/10/14 19:12:41 ern Exp $
+ * Ident:    $Id: ndmos_freebsd.h,v 1.1.1.1 2003/10/14 19:12:41 ern Exp $
  *
  * Description:
  *	This establishes the environment and options

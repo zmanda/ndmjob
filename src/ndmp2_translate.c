@@ -28,7 +28,7 @@
 
 /*
  * Project:  NDMJOB
- * Ident:    $Id: ndmp2_translate.c,v 1.1 2003/10/14 19:12:42 ern Exp $
+ * Ident:    $Id: ndmp2_translate.c,v 1.1.1.1 2003/10/14 19:12:42 ern Exp $
  *
  * Description:
  *

@@ -45,7 +45,7 @@
 
 /*
  * Project:  NDMJOB
- * Ident:    $Id: ndmos_xxx.h,v 1.1 2003/10/14 19:12:42 ern Exp $
+ * Ident:    $Id: ndmos_xxx.h,v 1.1.1.1 2003/10/14 19:12:42 ern Exp $
  *
  * Description:
  *	This establishes the environment and options

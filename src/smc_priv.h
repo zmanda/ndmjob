@@ -28,7 +28,7 @@
 
 /*
  * Project:  NDMJOB
- * Ident:    $Id: smc_priv.h,v 1.1 2003/10/14 19:12:46 ern Exp $
+ * Ident:    $Id: smc_priv.h,v 1.1.1.1 2003/10/14 19:12:46 ern Exp $
  *
  * Description:
  *

@@ -28,7 +28,7 @@
 
 /*
  * Project:  NDMJOB
- * Ident:    $Id: ndmp0_xmt.c,v 1.1 2003/10/14 19:12:42 ern Exp $
+ * Ident:    $Id: ndmp0_xmt.c,v 1.1.1.1 2003/10/14 19:12:42 ern Exp $
  *
  * Description:
  *

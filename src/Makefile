@@ -28,7 +28,7 @@
 
 #
 # Project:  NDMJOB
-# Ident:    $Id: Makefile,v 1.1 2003/10/14 19:12:37 ern Exp $
+# Ident:    $Id: Makefile,v 1.1.1.1 2003/10/14 19:12:37 ern Exp $
 #
 # Description
 #
