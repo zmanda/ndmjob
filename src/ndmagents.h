@@ -28,7 +28,7 @@
 
 /*
  * Project:  NDMJOB
- * Ident:    $Id: ndmagents.h,v 1.1 2003/10/14 19:18:15 ern Exp $
+ * Ident:    $Id: ndmagents.h,v 1.1.1.1 2003/10/14 19:18:15 ern Exp $
  *
  * Description:
  *

@@ -28,7 +28,7 @@
 
 /*
  * Project:  NDMJOB
- * Ident:    $Id: ndml_agent.c,v 1.1 2003/10/14 19:18:15 ern Exp $
+ * Ident:    $Id: ndml_agent.c,v 1.1.1.1 2003/10/14 19:18:15 ern Exp $
  *
  * Description:
  *	Handle representation of an NDMP agent.

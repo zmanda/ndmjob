@@ -28,7 +28,7 @@
 
 /*
  * Project:  NDMJOB
- * Ident:    $Id: ndma_control.c,v 1.1 2003/10/14 19:18:13 ern Exp $
+ * Ident:    $Id: ndma_control.c,v 1.1.1.1 2003/10/14 19:18:13 ern Exp $
  *
  * Description:
  *

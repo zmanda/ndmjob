@@ -28,7 +28,7 @@
 
 /*
  * Project:  NDMJOB
- * Ident:    $Id: ndma_ctst_data.c,v 1.1 2003/10/14 19:18:26 ern Exp $
+ * Ident:    $Id: ndma_ctst_data.c,v 1.1.1.1 2003/10/14 19:18:26 ern Exp $
  *
  * Description:
  *

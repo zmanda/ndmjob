@@ -28,7 +28,7 @@
 
 /*
  * Project:  NDMJOB
- * Ident:    $Id: ndmos_common.c,v 1.1 2003/10/14 19:18:27 ern Exp $
+ * Ident:    $Id: ndmos_common.c,v 1.1.1.1 2003/10/14 19:18:27 ern Exp $
  *
  * Description:
  *	This contains code fragments common between the

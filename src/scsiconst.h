@@ -28,7 +28,7 @@
 
 /*
  * Project:  NDMJOB
- * Ident:    $Id: scsiconst.h,v 1.1 2003/10/14 19:18:20 ern Exp $
+ * Ident:    $Id: scsiconst.h,v 1.1.1.1 2003/10/14 19:18:20 ern Exp $
  *
  * Description:
  *

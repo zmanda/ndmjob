@@ -28,7 +28,7 @@
 
 /*
  * Project:  NDMJOB
- * Ident:    $Id: ndma_comm_dispatch.c,v 1.1 2003/10/14 19:18:13 ern Exp $
+ * Ident:    $Id: ndma_comm_dispatch.c,v 1.1.1.1 2003/10/14 19:18:13 ern Exp $
  *
  * Description:
  *	Think of ndma_dispatch_request() as a parser (like yacc(1) input).

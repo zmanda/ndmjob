@@ -28,7 +28,7 @@
 
 /*
  * Project:  NDMJOB
- * Ident:    $Id: tarhdr_gnu.h,v 1.1 2003/10/14 19:18:21 ern Exp $
+ * Ident:    $Id: tarhdr_gnu.h,v 1.1.1.1 2003/10/14 19:18:21 ern Exp $
  *
  * Description:
  *

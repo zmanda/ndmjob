@@ -28,7 +28,7 @@
 
 /*
  * Project:  NDMJOB
- * Ident:    $Id: smc_parse.c,v 1.1 2003/10/14 19:18:21 ern Exp $
+ * Ident:    $Id: smc_parse.c,v 1.1.1.1 2003/10/14 19:18:21 ern Exp $
  *
  * Description:
  *
