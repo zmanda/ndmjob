@@ -28,7 +28,7 @@
 
 /*
  * Project:  NDMJOB
- * Ident:    $Id: ndmp3.x,v 1.1 2003/10/14 19:16:42 ern Exp $
+ * Ident:    $Id: ndmp3.x,v 1.1.1.1 2003/10/14 19:16:42 ern Exp $
  *
  * Description:
  *
@@ -44,7 +44,7 @@
  * Copyright (c) 1999 Intelliguard Software, Network Appliance.
  * All Rights Reserved.
  *
- * $Id: ndmp3.x,v 1.1 2003/10/14 19:16:42 ern Exp $
+ * $Id: ndmp3.x,v 1.1.1.1 2003/10/14 19:16:42 ern Exp $
  */
 
 %#ifndef NDMOS_OPTION_NO_NDMP3

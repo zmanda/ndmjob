@@ -28,7 +28,7 @@
 
 /*
  * Project:  NDMJOB
- * Ident:    $Id: ndmp9_enum_strs.h,v 1.1 2003/10/14 19:16:44 ern Exp $
+ * Ident:    $Id: ndmp9_enum_strs.h,v 1.1.1.1 2003/10/14 19:16:44 ern Exp $
  *
  * Description:
  *

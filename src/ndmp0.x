@@ -28,7 +28,7 @@
 
 /*
  * Project:  NDMJOB
- * Ident:    $Id: ndmp0.x,v 1.1 2003/10/14 19:16:42 ern Exp $
+ * Ident:    $Id: ndmp0.x,v 1.1.1.1 2003/10/14 19:16:42 ern Exp $
  *
  * Description:
  *	NDMPv0, represented here, is a ficticious version

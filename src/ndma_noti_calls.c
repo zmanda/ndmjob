@@ -28,7 +28,7 @@
 
 /*
  * Project:  NDMJOB
- * Ident:    $Id: ndma_noti_calls.c,v 1.1 2003/10/14 19:16:46 ern Exp $
+ * Ident:    $Id: ndma_noti_calls.c,v 1.1.1.1 2003/10/14 19:16:46 ern Exp $
  *
  * Description:
  *
