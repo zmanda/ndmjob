@@ -28,7 +28,7 @@
 
 /*
  * Project:  NDMJOB
- * Ident:    $Id: ndma_ctrl_conn.c,v 1.1 2004/01/12 18:04:27 ern Exp $
+ * Ident:    $Id: ndma_ctrl_conn.c,v 1.1.1.1 2004/01/12 18:04:27 ern Exp $
  *
  * Description:
  *

@@ -28,7 +28,7 @@
 
 /*
  * Project:  NDMJOB
- * Ident:    $Id: ndml_stzf.c,v 1.1 2004/01/12 18:06:28 ern Exp $
+ * Ident:    $Id: ndml_stzf.c,v 1.1.1.1 2004/01/12 18:06:28 ern Exp $
  *
  * Description:
  *	Stanza files look about like this:

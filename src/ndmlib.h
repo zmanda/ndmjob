@@ -28,7 +28,7 @@
 
 /*
  * Project:  NDMJOB
- * Ident:    $Id: ndmlib.h,v 1.1 2004/01/12 18:07:04 ern Exp $
+ * Ident:    $Id: ndmlib.h,v 1.1.1.1 2004/01/12 18:07:04 ern Exp $
  *
  * Description:
  *

@@ -28,7 +28,7 @@
 
 /*
  * Project:  NDMJOB
- * Ident:    $Id: smc_pp.c,v 1.1 2004/01/12 18:04:26 ern Exp $
+ * Ident:    $Id: smc_pp.c,v 1.1.1.1 2004/01/12 18:04:26 ern Exp $
  *
  * Description:
  *

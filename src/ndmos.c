@@ -28,7 +28,7 @@
 
 /*
  * Project:  NDMJOB
- * Ident:    $Id: ndmos.c,v 1.1 2004/01/12 18:04:25 ern Exp $
+ * Ident:    $Id: ndmos.c,v 1.1.1.1 2004/01/12 18:04:25 ern Exp $
  *
  * Description:
  *	#include the right O/S specific C file.

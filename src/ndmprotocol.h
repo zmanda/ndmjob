@@ -28,7 +28,7 @@
 
 /*
  * Project:  NDMJOB
- * Ident:    $Id: ndmprotocol.h,v 1.1 2004/01/12 18:06:31 ern Exp $
+ * Ident:    $Id: ndmprotocol.h,v 1.1.1.1 2004/01/12 18:06:31 ern Exp $
  *
  * Description:
  *	This is the key #include file for the NDMP protocol

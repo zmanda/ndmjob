@@ -28,7 +28,7 @@
 
 /*
  * Project:  NDMJOB
- * Ident:    $Id: ndmos_solaris.h,v 1.1 2004/01/12 18:06:29 ern Exp $
+ * Ident:    $Id: ndmos_solaris.h,v 1.1.1.1 2004/01/12 18:06:29 ern Exp $
  *
  * Description:
  *	This establishes the environment and options

@@ -28,7 +28,7 @@
 
 /*
  * Project:  NDMJOB
- * Ident:    $Id: ndma_cops_query.c,v 1.1 2004/01/12 18:06:38 ern Exp $
+ * Ident:    $Id: ndma_cops_query.c,v 1.1.1.1 2004/01/12 18:06:38 ern Exp $
  *
  * Description:
  *

@@ -28,7 +28,7 @@
 
 /*
  * Project:  NDMJOB
- * Ident:    $Id: ndma_ctrl_robot.c,v 1.1 2004/01/12 18:06:23 ern Exp $
+ * Ident:    $Id: ndma_ctrl_robot.c,v 1.1.1.1 2004/01/12 18:06:23 ern Exp $
  *
  * Description:
  *

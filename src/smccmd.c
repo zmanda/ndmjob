@@ -28,7 +28,7 @@
 
 /*
  * Project:  NDMJOB
- * Ident:    $Id: smccmd.c,v 1.1 2004/01/12 18:04:26 ern Exp $
+ * Ident:    $Id: smccmd.c,v 1.1.1.1 2004/01/12 18:04:26 ern Exp $
  *
  * Description:
  *  This is a stand-alone command that accesses a SCSI

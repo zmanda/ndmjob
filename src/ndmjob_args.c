@@ -28,7 +28,7 @@
 
 /*
  * Project:  NDMJOB
- * Ident:    $Id: ndmjob_args.c,v 1.1 2004/01/12 18:06:57 ern Exp $
+ * Ident:    $Id: ndmjob_args.c,v 1.1.1.1 2004/01/12 18:06:57 ern Exp $
  *
  * Description:
  *

@@ -45,7 +45,7 @@
 
 /*
  * Project:  NDMJOB
- * Ident:    $Id: ndmos_xxx.c,v 1.1 2004/01/12 18:06:29 ern Exp $
+ * Ident:    $Id: ndmos_xxx.c,v 1.1.1.1 2004/01/12 18:06:29 ern Exp $
  *
  * Description:
  *	This contains the O/S (Operating System) specific

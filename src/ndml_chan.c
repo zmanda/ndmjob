@@ -28,7 +28,7 @@
 
 /*
  * Project:  NDMJOB
- * Ident:    $Id: ndml_chan.c,v 1.1 2004/01/12 18:06:26 ern Exp $
+ * Ident:    $Id: ndml_chan.c,v 1.1.1.1 2004/01/12 18:06:26 ern Exp $
  *
  * Description:
  *

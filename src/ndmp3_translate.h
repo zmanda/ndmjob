@@ -28,7 +28,7 @@
 
 /*
  * Project:  NDMJOB
- * Ident:    $Id: ndmp3_translate.h,v 1.1 2004/01/12 18:06:30 ern Exp $
+ * Ident:    $Id: ndmp3_translate.h,v 1.1.1.1 2004/01/12 18:06:30 ern Exp $
  *
  * Description:
  *

@@ -28,7 +28,7 @@
 
 /*
  * Project:  NDMJOB
- * Ident:    $Id: snoop_tar.h,v 1.1 2004/01/12 18:06:32 ern Exp $
+ * Ident:    $Id: snoop_tar.h,v 1.1.1.1 2004/01/12 18:06:32 ern Exp $
  *
  * Description:
  *
