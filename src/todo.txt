@@ -1,0 +1,59 @@
+Things to add:
+
+- Make sure after a backup or restore run that record count for the
+  mover and byte count for both MOVER and DATA are positive after the
+  STOP.... Better yet...positive and larger or same
+  then the last successful query.
+
+- During backup does DATA have to notify *before* MOVER during a normal
+  backup?
+
+- Add 1/8 hour timeout to lack of progress with record number for MOVER
+  Ditto for DATA?
+
+- Make sure byte count/record counts for MOVER and DATA are going staying
+  the same or increasing.
+
+- 5 minute timeout on commands (probably 4 minutes)
+
+- In v3 & v4, MOVER can can CONNECT to DATA (instead of the normal
+  DATA connect to MOVER).
+
+- Make a cons file so it builds correctly especially if data structures
+  change....
+
+- Add state checks and the like to '-c' and '-x' mode so we can detect
+  failures.....!!!!
+
+- Add variations of -c and -x to expect failures and confirm them.
+
+- Display for -c and -x notifications and final state at end and
+  make sure they are all positive or negative final with at least
+  one negative notification.
+
+- Add graceful connection closing with check....
+
+- Add batch command set mode so multiple operations such as a 
+  backup followed by a restore using the same sessions/connections can
+  be done....
+
+- Add switch for adding EOFs at EOM (on mover PAUSE EOM)
+
+- Fix this loop on a closed TCP connection:
+  #D   0:00:49.183 ERR=xdr-get-next
+  SESS 0:00:49.183 ch name=#C. resident ready=0 avail=0 
+  SESS 0:00:49.183 ch name=#D readchk -rdy-chk-eof
+  SESS 0:00:49.206 ch name=image-stream idle 
+  #D   0:00:49.206 ERR=xdr-get-next
+  SESS 0:00:49.206 ch name=#C. resident ready=0 avail=0 
+  SESS 0:00:49.206 ch name=#D readchk -rdy-chk-eof
+  SESS 0:00:49.215 ch name=image-stream idle 
+
+- Make sure there is tests for 80-byte ANSI style tape and file records.
+
+- Add direct access TCP WRITER test to MOVER.
+
+- Add direct access TCP READ test to MOVER with optional DAR like activity.
+
+- Add direct accesss TCP sink test to DATA.
+

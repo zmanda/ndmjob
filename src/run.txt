@@ -1,0 +1,64 @@
+# Perform Query operations
+---------------------------
+./ndmjob -v -d 7 -q -Bdump -Dsmokejig2.slab,root,admin
+./ndmjob -v -d 7 -q -Tsmokejig2.slab,root,admin
+./ndmjob -v -d 7 -q -Rsmokejig2.slab,root,admin
+
+# Test tape drive support
+-------------------------
+./ndmjob -v -d 7 -o test-tape -Tsmokejig2.slab,root,admin -f /tape/10000060451727c2.2
+
+# Test general MOVER support
+-----------------------------
+./ndmjob -v -d 7 -o test-mover -Tsmokejig2.slab,root,admin -f /tape/10000060451727c2.2
+
+# Test general DATA support
+----------------------------
+./ndmjob -v -d 7 -o test-data -b 128 -Bdump -Dsmokejig2.slab,root,admin -f /tape/200000108600066c.8
+
+# local backup (with and without catalog):
+------------------------------------------
+./ndmjob -v -d 7 -c -b 128 -Bdump -E FILESYSTEM=/base -E LEVEL=0 -Dsmokejig2.slab,root,admin -f /tape/200000108600066c.8 -I index0
+
+./ndmjob -v -d 7 -c -b 128 -Bdump -E FILESYSTEM=/base -E LEVEL=0 -Dsmokejig2.slab,root,admin -f /tape/200000108600066c.8
+
+# local restore (with and without catalog)
+------------------------------------------
+./ndmjob -v -d 7 -x -b 128 -Bdump -E FILESYSTEM=/base -Dsmokejig2.slab,root,admin -f /tape/200000108600066c.8 -J index0 -C /empty / make
+
+./ndmjob -v -d 7 -x -b 128 -Bdump -E FILESYSTEM=/base -Dsmokejig2.slab,root,admin -f /tape/200000108600066c.8 -C /empty /
+
+# local backup with EOT testing:
+--------------------------------
+./ndmjob -b 128 -v -c -d 7 -E FILESYSTEM=/base -E LEVEL=0 -Bdump -Dsmokejig2.slab,root,admin -f /tape/10000060451727c2.2 -o tape-addr=256 -r /robot/10000060451727c2.1 -m @4104+396 -m @4110 -o use-eject=1 -o tape-timeout=60
+
+# local restore with EOT testing:
+--------------------------------
+./ndmjob -b 128 -v -x -d 7 -E FILESYSTEM=/base -Bdump -Dsmokejig2.slab,root,admin -f /tape/10000060451727c2.2 -o tape-addr=256 -r /robot/10000060451727c2.1 -m @4104+396 -m @4110 -o use-eject=1 -o tape-timeout=60 -C /empty /
+
+================================================================
+
+2.0 pre-alpha runs:
+----------------------------------------------------------------
+tcp backup to local unix file with catalog:
+------
+./ndmjob -b 128 -v -c -d 7 -E FILESYSTEM=/1024 -E LEVEL=0 -Bdump -Dsmokejig2.slab,root,admin -I /tmp/idx -T. -f /tmp/foo
+
+tcp restore from local unix file:
+------
+./ndmjob -b 128 -v -x -d 7 -E FILESYSTEM=/1024 -Bdump -Dsmokejig2.slab,root,admin -T. -f /tmp/foo -C /1024 /
+
+
+local unix tar to remote tcp tape:
+------
+./ndmjob -b 128 -v -c -d 7 -D. -Tsmokejig2.slab,root,admin -f /tape/200000108600066c.8 -I indexq -F TAR
+
+remote tcp to local unix tar (buggy)
+------
+./ndmjob -b 128 -v -x -d 7 -D. -Tsmokejig2.slab,root,admin -f /tape/200000108600066c.8 -C tmp TAR
+	 (put stuff in 'TAR')
+
+SPECIAL CASES:
+--------------
+V3
+./ndmjob -v -d 6 -x -b 128 -Bdump -E FILESYSTEM=/traakan -D10.1.1.101,ndmp,ndmp -f /tape/20000010861010d4.1 -C /simple.restore .

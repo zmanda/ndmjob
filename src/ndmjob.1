@@ -1,0 +1,1111 @@
+.TH NDMJOB 1 "March 2002"
+.SH NAME
+ndmjob \- NDMP all-in-one
+.SH SYNOPSIS
+.B ndmjob
+.I options
+[
+.I file
+.I ...
+]
+
+.SH DESCRIPTION
+NDMJOB is a NDMP-compatible backup/restore
+package, reference implementation, and conformance test.
+It is furnished in source code form to the public by Traakan,
+Inc. and other contributors free of charge or restriction.
+NDMP (Network Data Management Protocol) is an open protocol
+for network based backup enabling multi-vendor backup
+solutions. NDMJOB may be used as a ready-to-run backup package,
+used in conjunction with other NDMP products, as the basis for
+new products, as a verification of NDMP products, and as a
+reference of the NDMP protocol standards and conventions.
+.P
+NDMJOB is a command which manages tape backup and recover
+operations using NDMP (Network Data Management Protocol).
+NDMJOB, and NDMP in general, is a framework for
+managing backups and not a backup method.
+There is no NDMJOB tape format, for example.
+Rather, NDMJOB is a "wrapper" around programs which do
+the real work (like tar(1) and dump(1)),
+and provides an interoperable way
+to orchestrate backup/recover operations.
+.P
+NDMJOB was originally developed by Traakan, Inc as a
+testing tool.
+It gradually became more sophisticatd
+to test tape robotics and directed access recovery (DAR).
+Further, it became a vehicle for identifying and resolving
+ambiguities in the NDMP specification.
+As NDMJOB evolved it became a generally useful utility
+as well as a testing tool.
+Traakan released NDMJOB into the public domain in the
+spirit of fostering interoperability and
+deployment of NDMP-based backup systems.
+.P
+NDMJOB is more library than command, and this library
+may serve as the foundation for more elaborate
+CONTROL packages and/or better user interfaces.
+The NDMP behaviour and conventions are isolated
+in operating system generic modules.
+Operating system specific portions, such as device access
+and manipulation, are isolated in per-system modules.
+
+.SH OPTIONS
+ndmjob -v  -- print version and configuration info
+ndmjob OPTIONS ... FILES ...
+.SS Modes (exactly one required)
+.TP
+\-c
+Create a backup.
+Required options are
+.BR \-D ,
+.BR \-f ,
+and
+.BR \-C .
+Recommended options include
+.B \-B
+and
+.BR \-I .
+.TP
+\-t
+List contents of a backup.
+The main purpose of this is to recover the index
+(see
+.B \-I
+below)
+generated during backup.
+Required options are
+.B \-D
+and
+.BR \-f .
+Recommended options include
+.BR \-B .
+.TP
+\-x
+Extract (recover) from a backup.
+With no file arguments
+(see
+.B \-F
+below)
+everything is extracted.
+Required options are
+.BR \-D ,
+.BR \-f ,
+and
+.BR \-C .
+Recommended options include
+.B \-B
+and
+.BR \-J .
+The input index
+.RB ( \-J )
+should contain the post backup envirnoment
+(ref NDMP_DATA_GET_ENV) which is required
+by the NDMP specification.
+Some DATA services can support recovery if
+this is missing, some can't.
+.TP
+\-l
+List media labels
+.TP
+\-q
+Query service(s).
+The queries (using NDMP_CONFIG interfaces)
+depend on which of
+.BR \-D ,
+.BR \-T ,
+.BR \-R ,
+and
+.B \-r
+have been given.
+If
+.B \-r
+is given the robot is queried for element status.
+.TP
+\-Z
+Clean up zee mess (put robot right)
+.TP
+\-o init-labels
+Initialize media labels.
+.TP
+\-o daemon
+Launch session for incomming connections
+.TP
+\-o rewind
+Rewind tape in drive, need
+.B \-T
+and
+.BR \-f .
+.TP
+\-o eject
+Eject tape in drive, need
+.B \-T
+and
+.BR \-f .
+.TP
+\-o move
+Command ROBOT to move a tape.
+Need
+.BR \-r ,
+.BR \-R ,
+.BI "\-o from-addr=" ELEMADDR,
+and
+.BI "\-o to-addr=" ELEMADDR
+options.
+.TP
+.RI "\-o import=" ELEMADDR
+Command ROBOT to move tape from
+import/export door to slot.
+.IR ELEMADDR .
+Need
+.B \-r
+and
+.BR \-R .
+.TP
+.RI "\-o export=" ELEMADDR
+Command ROBOT to move tape from slot to
+import/export door
+.TP
+.RI "\-o load=" ELEMADDR
+Command ROBOT to load tape from slot
+.I ELEMADDR
+to tape drive.
+.TP
+.RI "\-o unload[=" ELEMADDR "]"
+Command ROBOT to unload tape from tape
+drive to slot
+.IR ELEMADDR .
+If
+.I ELEMADDR
+is not given the robot is checked to
+see if knows where the tape came from.
+If it does the tape is moved there.
+.TP
+\-o init-elem-status
+Command ROBOT to rescan tape slots.
+.TP
+\-o test-tape
+Test TAPE service NDMP_TAPE functions
+.TP
+\-o test-mover
+Test TAPE service NDMP_MOVER functions
+.TP
+\-o test-data
+Test DATA service NDMP_DATA functions
+.SS General and Logging parameters
+.TP
+.RI \-\^\- MACRO
+expand
+.I MACRO
+from
+.B ndmjob.conf
+file.
+The file is found using the
+.B NDMJOB_CONF
+environment variable.
+If it is not set,
+.B ./ndmjob.conf
+is used.
+.TP
+.RI "\-d " N
+Set debug level to
+.I N
+(default 0, max 9).
+.TP
+.RI "\-L " FILE
+Set log file (default stderr, includes debug)
+.TP
+\-n
+No-op, just show how args were handled.
+.TP
+\-v
+Verbose, same messages as -d1 to standard out.
+More than one
+.B \-v may be given and each increases the level of details.
+For example,
+.B \-vvv
+(three v's)
+will give details to stdout as
+.B \-d3
+would to the log.
+.TP
+\-o no-time-stamps
+Log without time stamps. Makes diff(1)s easier.
+.TP
+.RI "\-o config-file=" PATH
+Set config file ($NDMJOB_CONF, ./ndmjob.conf).
+.SS CONTROL of DATA service parameters
+.TP
+.RI "\-D " AGENT
+Data agent (see
+.I AGENT
+under
+.B Definitions
+below).
+.TP
+.RI "\-B " TYPE
+Set backup type (default tar).
+The
+.I TYPE
+is passed as part of the backup or recover request
+to the DATA service.
+It is also passed as the NDMP variable
+.BI TYPE= TYPE.
+.TP
+.RI "\-C " DIR
+Change directory on DATA service before operation.
+This sets the backup root for a backup
+and is passed as the
+NDMP 
+.B FILESYSTEM
+variable.
+For recovery the name is prefixed to the
+file arguments to form the destination name.
+For example, giving file name
+.B /foo/bar
+as a file argument (see
+.BR \-F)
+to a recovery will have original name
+.B /foo/bar
+and a destination path of
+.IB DIR /foo/bar.
+.TP
+.RI "\-e " PATN
+Exclude files matching pattern.
+Each \-e option is passed as an NDMP variable
+.BI EXCLUDE= PATN.
+.TP
+.RI "\-E " NAME = VAL
+Add to DATA service environment.
+All
+.B \-E
+variable assignments
+in backup or recover requests
+precede those synthesized by NDMJOB.
+.TP
+.RI "\-F " FILE
+Add
+.I FILE
+to file list. Used to not confuse argument processing.
+For backup, each
+.I FILE
+argument (either within a
+.B \-F
+option or after all options)
+is passed as a separate
+.BI FILE= FILE
+NDMP variable.
+For recovery, each
+.I FILE
+argument is used as the original name in the recovery request.
+See
+.B \-C
+for how destination name is formed.
+.TP
+.RI "\-I " FILE
+Set output index file. Enable file history
+by setting NDMP variable
+.BR HIST=y .
+The output index contains file history (index) information
+sent from the DATA service.
+It also contains media (tape) usage information and
+the post backup environment.
+After the completion of the operation the index file
+is sorted by invoking the sort(1) command.
+.TP
+.RI "\-J " FILE
+Set input index file (default none)
+Used during recovery operations.
+The input index is expected to have been generated by
+an earlier
+.B NDMJOB
+run using the
+.B \-I
+option.
+It must be sorted in lexicographic order.
+.B NDMJOB
+uses binary search to lookup file entries.
+A small value, called the
+.BR fhinfo ,
+is generated by the DATA service for each object
+(file, directory, device node, etc) during the backup.
+The
+.B fhinfo
+is a hint understood only by the generating DATA
+service indicating the location of the object in the
+backup image.
+Typically, but not strictly, it is a byte offset
+within the backup image where the object lies.
+Each file argument
+.RB (see \-F )
+is looked up in the input index to find the
+.B fhinfo
+which is passed to the DATA service as part of the
+recovery request.
+The post backup environment is also retrieved and
+passed to the DATA service as part of the recovery request.
+If no
+.B \-J
+input index is given the
+.B fhinfo
+values are set to all 1s.
+.TP
+.RI "\-U " USER
+User rights to use on DATA service.
+Simply sets the NDMP variable
+.BI USER= USER.
+.TP
+.RI "\-o rules=" RULES
+Apply
+.I RULES
+to job (see RULES below).
+This is left over from the days of NDMPv2 and NDMPv3
+and was never fully implemented.
+It will probably be deleted in future versions of
+.BR NDMJOB .
+.SS CONTROL of TAPE service parameters
+.TP
+.RI "\-T " AGENT
+Tape agent if different than
+.B \-D
+(see
+.I AGENT
+under
+.B Definitions
+below).
+.TP
+.RI "\-b " N
+Block size in 512-byte records (default 20).
+.TP
+.RI "\-f " TAPE
+Tape drive device name.
+.TP
+.RI "\-o tape-timeout=" SECONDS
+How long to retry opening drive (await tape).
+If not given a tape open must succeed immediately.
+If given NDMJOB retries the tape open every ten
+seconds until
+.I SECONDS
+is exceeded.
+.TP
+.RI "\-o use-eject=" N
+Use eject when unloading tapes (default 0).
+.SS CONTROL of ROBOT service parameters
+.TP
+.RI "\-R " AGENT
+Robot agent if different than -T (see
+.I AGENT
+under
+.B Definitions
+below).
+.TP
+.RI "\-m " MEDIA
+Add entry to media table (see
+.I MEDIA
+under
+.B Definitions
+below).
+.TP
+.RI "\-o tape-addr=" ELEMADDR
+Robot element address of tape drive (default first tape drive).
+.TP
+.RI "\-o tape-scsi=" SCSI
+Tape drive SCSI target (see
+.I SCSI
+under
+.B Definitions
+below).
+.TP
+.RI "\-o robot-timeout=" SECONDS
+How long to retry moving tapes (await robot)
+If not given a robot command must succeed immediately.
+If given NDMJOB retries the command every ten
+seconds until
+.I SECONDS
+is exceeded.
+.TP
+.RI "\-r " SCSI
+Tape robot device (see
+.B Definitions
+below).
+.SS Definitions
+.I AGENT
+.RS 4
+An
+.I AGENT
+specifies the host, NDMP version, authentication method,
+username, and password used to reach a service.
+Two forms are reconized.
+.P
+The first form specifies a remote agent.
+.P
+.IR HOST [: PORT ][/ FLAGS ][, USERNAME , PASSWORD ]
+.P
+.TP
+.I HOST
+Is the host name or IP address.
+.TP
+.RI : PORT
+Optional port number.
+If not given the port number is 10000.
+.TP
+.RI / FLAGS
+Optional flags to indicate desired NDMP version
+or authentication method.
+The default version is negotiated to be the highest
+possible.
+The default authentication method is text
+(NDMP_AUTH_TEXT).
+.RS 4
+.TP 4
+.B 2
+Use NDMP version 2.
+.TP 4
+.B 3
+Use NDMP version 3.
+.TP 4
+.B 4
+Use NDMP version 4.
+.TP 4
+.B n
+Use no authentication (NDMP_AUTH_NONE).
+.TP 4
+.B t
+Use text authentication (NDMP_AUTH_TEXT).
+The user name and password are conveyed over
+the network as clear text (unencrypted).
+.TP 4
+.B m
+Use MD5 challenge/response authentication (NDMP_AUTH_MD5).
+The remote service is asked for a challenge.
+The password is digested using the challenge and the
+digest sent along with the clear text user name
+as authentication.
+This prevents clear text passwords from appearing
+on the network.
+.RE
+.TP
+.I USERNAME
+A user name that will be recongized by the remote service.
+Whether this is a general user name or a special account
+within the service is implementation dependent.
+.TP
+.I PASSWORD
+The password corresponding to the
+.IR USERNAME .
+.P
+The second form specifies a resident agent.
+.P
+.RI .[/ FLAGS ]
+.P
+This means that the agent (service) is performed by
+the NDMJOB process itself.
+The NDMP version used for internal communication may
+be specified.
+.RE
+.P
+.I SCSI
+.RS 4
+.I SCSI
+specifies the device name and optionally the SCSI target ID (SID),
+controller, and logical unit number (LUN) of a device.
+Support for the SID, LUN, and CNUM were withdrawn in NDMP4
+since it was found in practice that the device name
+was sufficient.
+When using NDMP2 and NDMP3 NDMJOB uses NDMP_SCSI_SET_TARGET
+requests if SID, LUN, or CNUM are given.
+.P
+.I SCSI
+has the synopsis
+.P
+.IR DEVICE [,[ CNUM ,] SID [, LUN ]]
+.TP
+.I DEVICE
+is a device name (/dev/pass0, mc0).
+.TP
+.I CNUM
+is the controller number as an integer between 0 and 65535.
+.TP
+.I SID
+is the target SCSI ID (SID) as an integer between 0 and 65535.
+.TP
+.I LUN
+is the target logical unit number (LUN) as an integer between 0 and 65535.
+.RE
+.P
+.I MEDIA
+.RS 4
+A
+.I MEDIA
+specification describes a tape and possibly a region of a tape.
+.P
+.I MEDIA
+has the synopsis
+.P
+.RI [ TAPE-LABEL ][+ SKIP-FILEMARKS ][@ ELEMADDR ][/ WINDOW-SIZE ]
+.TP
+.I TAPE-LABEL
+A short name between 1 and 31 characters long.
+A tape label is written as a 512 byte record followed
+by a filemark right at the begining of the tape.
+If
+.I TAPE-LABEL
+is given,
+all operations except
+.B "\-o init-labels"
+verifies the tape label before using the tape.
+.TP
+.I SKIP-FILEMARKS
+The number of filemarks to skip over before using
+the tape.
+The default is 1 if a
+.I TAPE-LABEL
+is given, 0 otherwise.
+Caution: if you specify a
+.I TAPE-LABEL
+and also a
+.I SKIP-FILEMARK
+of 0, the tape label will be overwritten.
+.TP
+.I ELEMADDR
+The element address of the slot containing the
+tape in the robot (media changer).
+Note that this is not a relative slot number, but
+is the address defined by the robot.
+.TP
+.I WINDOW-SIZE
+A integer optionally followed by a scale indicating
+how much tape may be used.
+Recongized scales are
+.BR k ,
+.BR m ,
+and
+.B g
+with their obvious meanings.
+This is the value used for NDMP_MOVER_SET_WINDOW.
+.RE
+
+.SH EXAMPLES
+In the examples that follow there is a host
+.B delta
+with file data to be backed up and a host
+.B tango
+with a tape subsystem.
+
+.SS Query services
+These examples query the DATA, TAPE, and ROBOT services.
+In the later examples the NDMP version is specified.
+NDMP implementations which support multiple versions
+might do this as an exercise.
+.P
+.nf
+.na
+.ft CR
+ndmjob -q -D delta,user,pass
+ndmjob -q -T tango,user,pass
+ndmjob -q -R tango,user,pass -r /dev/mc0
+
+ndmjob -q -D delta,user,pass \e
+   -T tango,user,pass -r /dev/mc0
+
+ndmjob -q -D delta/3,user,pass \e
+   -T tango/2,user,pass \e
+   -R tango/4,user,pass -r /dev/mc0
+.P
+.SS 2-way Backup and Recover
+This example shows a backup of
+.B /export
+on
+.B delta
+to a tape drive,
+.BR /dev/rst0 ,
+connected to
+.BR delta .
+Then it shows recovery of a single file,
+.BR /home/fred/stuff ,
+to
+.B /tmp/home/fred/stuff
+on
+.BR delta .
+Finally it shows a complete restore of the backup to
+.BR /export .
+.P
+Notice when the backup is created that a file index
+is saved to file
+.BR index .
+When
+.B /home/fred/stuff
+is recovered
+.B ndmjob
+sends to the DATA service on
+.B delta
+a small location value
+(called the fhinfo)
+that was provided at the time of backup by the DATA service.
+This should result in the tape being rapidly positioned
+to the desired file.
+As required by the NDMP specification,
+.B ndmjob
+retrieves the
+.I "post backup environment"
+from the index file and sends it to the DATA service
+during recovery operations.
+.P
+.nf
+.na
+.ft CR
+ndmjob -c -D delta,user,pass -B dump \e
+   -I index -C /export \e
+   -f /dev/rst0
+
+ndmjob -x -D delta,user,pass -B dump \e
+   -J index -C /tmp -E DIRECT=yes \e
+   -f /dev/rst0 \e
+   /home/fred/stuff
+
+ndmjob -x -D delta,user,pass -B dump \e
+   -J index -C /export \e
+   -f /dev/rst0
+.P
+.SS 3-way Backup and Recover
+This is like the 2-way examples, above, but
+uses a tape drive on
+.B tango
+rather than one directly connected to
+.BR delta .
+.P
+.nf
+.na
+.ft CR
+ndmjob -c -D delta,user,pass -B dump \e
+   -I index -C /export \e
+   -T tango,user,pass -f /dev/rst0
+
+ndmjob -x -D delta,user,pass -B dump \e
+   -J index -C /tmp -E DIRECT=yes \e
+   -T tango,user,pass -f /dev/rst0 \e
+   /home/fred/stuff
+
+ndmjob -x -D delta,user,pass -B dump \e
+   -J index -C /export \e
+   -T tango,user,pass -f /dev/rst0
+.P
+.SS 3-way Backup and Recover with Media Changer
+This is like the 3-way examples, above, and
+is also using a robot (media changer) on
+.B tango
+accessed through SCSI pass-thru device
+.BR /dev/mc0 .
+Notice that the
+.B \-m
+option is given selecting the tape in slot
+.BR 91 .
+This is the slot's element address.
+Also notice that
+.B "\-o tape-timeout"
+and
+.B "\-o robot-timeout"
+are given to allow time for the mechanical
+actions.
+.B "\-o use-eject"
+is given to say that the tape drive should
+be instructed to eject the tape prior to
+commanding the robot to move the tape.
+Some robots don't require such and the media
+move command alone is enough to rewind and
+eject the tape.
+.P
+.nf
+.na
+.ft CR
+ndmjob -c -D delta,user,pass -B dump \e
+   -I index -C /export \e
+   -T tango,user,pass -f /dev/rst0 \e
+   -o tape-timeout=60 -o use-eject=1 \e
+   -r /dev/mc0 -o robot-timeout=60 -m @91
+
+ndmjob -x -D delta,user,pass -B dump \e
+   -J index -C /tmp -E DIRECT=yes \e
+   -T tango,user,pass -f /dev/rst0 \e
+   -o tape-timeout=60 -o use-eject=1 \e
+   -r /dev/mc0 -o robot-timeout=60 -m @91 \e
+   /home/fred/stuff
+
+ndmjob -x -D delta,user,pass -B dump \e
+   -J index -C /export \e
+   -T tango,user,pass -f /dev/rst0 \e
+   -o tape-timeout=60 -o use-eject=1 \e
+   -r /dev/mc0 -o robot-timeout=60 -m @91
+.P
+.SS 3-way, Media Changer, Multiple Tapes
+This example shows multiple tapes in
+slots
+.BR 91 ,
+.BR 92 ,
+and
+.BR 93 .
+.P
+The
+.B /100m
+indicates that during backup at most 100 megabytes
+per tape may be used.
+You might do this to test multiple tape handling
+when the backup data is small.
+Here we expect the backup data to be beween
+200 and 300 megabytes.
+Without the
+.B /100m
+the tape would be written until full.
+Some TAPE service implementations might get
+this wrong and so you might use a size designator
+to workaround the problem.
+Of course, you would use a size like 100g instead.
+.P
+Notice that the size is not indicated for the
+recovery operations.
+The actual size is retrieved from the
+.B \-J
+input index.
+.P
+If the input index is missing,
+.B NDMJOB
+uses autodiscovery methods to determine the
+actual size of the tapes.
+It relies on the TAPE service recognizing
+when it reaches the end of the tape file
+and reporting accurate position information.
+Some TAPE services do not do this correctly.
+.P
+N.B.: NDMJOB only supports multiple tape backups
+with a robot (media changer).
+There are no provisions for manual tape changes.
+.P
+.nf
+.na
+.ft CR
+ndmjob -c -D delta,user,pass -B dump \e
+   -I index -C /export \e
+   -T tango,user,pass -f /dev/rst0 \e
+   -o tape-timeout=60 -o use-eject=1 \e
+   -r /dev/mc0 -o robot-timeout=60 \e
+   -m @91/100m -m @92/100m -m @93/100m
+
+ndmjob -x -D delta,user,pass -B dump \e
+   -J index -C /tmp -E DIRECT=yes \e
+   -T tango,user,pass -f /dev/rst0 \e
+   -o tape-timeout=60 -o use-eject=1 \e
+   -r /dev/mc0 -o robot-timeout=60 \e
+   -m @91 -m @92 -m @93 \e
+   /home/fred/stuff
+
+ndmjob -x -D delta,user,pass -B dump \e
+   -J index -C /export \e
+   -T tango,user,pass -f /dev/rst0 \e
+   -o tape-timeout=60 -o use-eject=1 \e
+   -r /dev/mc0 -o robot-timeout=60 \e
+   -m @91 -m @92 -m @93
+.P
+.SS Using ndmjob.conf file
+Here the immediately above example is repeated
+using command argument macros from the
+.B ndmjob.conf
+file.
+Let
+.B ndmjob.conf
+contain:
+.P
+.RS 4
+.nf
+.na
+.ft CR
+[--Ddelta]
+    -D delta,user,pass
+
+[--TRtango]
+   -T tango,user,pass -f /dev/rst0
+   -o tape-timeout=60 -o use-eject=1
+   -r /dev/mc0 -o robot-timeout=60
+
+[--m@9x]
+   -m @91 -m @92 -m @93
+
+[--m@9x/100m]
+   -m @91/100m -m @92/100m -m @93/100m
+
+[--backup-delta:/export]
+   -c --Ddelta -B dump -C /export
+.P
+.RE
+The macro key is contained within the square brackets.
+It can be anything that starts with \-\^\-.
+The lines following the key and up to the
+next key are are the macro body which is interpretted
+as command arguments.
+The macro body may invoke other macros.
+.P
+So the new command lines are:
+.P
+.nf
+.na
+.ft CR
+ndmjob --backup-delta:/export \e
+   -I index \e
+   --TRtango \e
+   --m@9x/100m
+
+ndmjob -x --Ddelta -B dump \e
+   -J index -C /tmp -E DIRECT=yes \e
+   --TRtango \e
+   --m@9x \e
+   /home/fred/stuff
+
+ndmjob -x --Ddelta \e
+   -J index -C /export \e
+   --TRtango \e
+   --m@9x
+.P
+.SS Using resident TAPE agent
+The resident TAPE agent uses the built-in tape simulator.
+The tape simulator uses a disk file and conforms to all
+NDMP4 tape semantics.
+This example shows the commands developers of DATA services
+might use.
+The simulator is very fast and messes are easy to clean up.
+Note that the disk file contains record marks and file
+marks interspersed with the written data.
+The disk file must exist, can be initialized as an empty file,
+and the tape simulator creates a symbolic link to keep
+track of position.
+See
+.B ndma_tape_simulator.c
+for details.
+.P
+.nf
+.na
+.ft CR
+rm -f FakeTape*
+.br
+touch FakeTape
+
+ndmjob -c -D delta,user,pass -B dump \e
+   -I index -C /export \e
+   -T. -f FakeTape
+
+ndmjob -x -D delta,user,pass -B dump \e
+   -J index -C /tmp -E DIRECT=yes \e
+   -T. -f FakeTape \e
+   /home/fred/stuff
+
+ndmjob -x -D delta,user,pass -B dump \e
+   -J index -C /export \e
+   -T. -f FakeTape
+.P
+.SS Using \-o test-tape
+These example shows how to use the conformance
+test for a TAPE service.
+The first example is a common case.
+The second creates a detailed log file,
+.BR debug.log ,
+of the test run.
+The third and fourth examples are the same
+using the built-in tape simulator.
+The results of the tape simulator may be used
+for comparison and reference.
+.P
+.nf
+.na
+.ft CR
+ndmjob -o test-tape -T tango,user,pass -f /dev/rst0
+
+ndmjob -o test-tape -T tango,user,pass -f /dev/rst0 \e
+    -L debug.log -d7
+
+rm -f FakeTape*
+.br
+touch FakeTape
+
+ndmjob -o test-tape -T. -f FakeTape
+
+ndmjob -o test-tape -T. -f FakeTape -L debug.log -d7
+.P
+.SS Using a Tape Label without a Media Changer
+This is an elaboration of the 3-way backup example.
+Here a tape label is used.
+The backup (-c) and recovery (-x) operations will
+assure that the tape label is correct before
+proceeding.
+The tape label is a single 512-byte record
+followed by a filemark.
+The actual backup data immediately follows the filemark.
+.P
+.nf
+.na
+.ft CR
+ndmjob -o init-labels \e
+    -T tango,user,pass -f /dev/rst0 \e
+    -m TapeOne
+
+ndmjob -c -D delta,user,pass -B dump \e
+   -I index -C /export \e
+   -T tango,user,pass -f /dev/rst0 \
+   -m TapeOne
+
+ndmjob -x -D delta,user,pass -B dump \e
+   -J index -C /tmp -E DIRECT=yes \e
+   -T tango,user,pass -f /dev/rst0 \e
+   -m TapeOne \e
+   /home/fred/stuff
+
+ndmjob -x -D delta,user,pass -B dump \e
+   -J index -C /export \e
+   -T tango,user,pass -f /dev/rst0 \e
+   -m TapeOne
+.P
+.SS Using Tape Labels with a Media Changer
+This is an elaboration of the 3-way backup using
+a media changer example.
+Here tape labels are used.
+.P
+.nf
+.na
+.ft CR
+ndmjob -o init-labels \e
+   -T tango,user,pass -f /dev/rst0 \e
+   -o tape-timeout=60 -o use-eject=1 \e
+   -r /dev/mc0 -o robot-timeout=60 \e
+   -m TapeOne@91 \e
+   -m TapeTwo@92 \e
+   -m TapeThree@93
+
+ndmjob -c -D delta,user,pass -B dump \e
+   -I index -C /export \e
+   -T tango,user,pass -f /dev/rst0 \e
+   -o tape-timeout=60 -o use-eject=1 \e
+   -r /dev/mc0 -o robot-timeout=60 \e
+   -m TapeOne@91/100m \e
+   -m TapeTwo@92/100m \e
+   -m TapeThree@93/100m
+
+ndmjob -x -D delta,user,pass -B dump \e
+   -J index -C /tmp -E DIRECT=yes \e
+   -T tango,user,pass -f /dev/rst0 \e
+   -o tape-timeout=60 -o use-eject=1 \e
+   -r /dev/mc0 -o robot-timeout=60 \e
+   -m TapeOne@91/100m \e
+   -m TapeTwo@92/100m \e
+   -m TapeThree@93/100m \e
+   /home/fred/stuff
+
+ndmjob -x -D delta,user,pass -B dump \e
+   -J index -C /export \e
+   -T tango,user,pass -f /dev/rst0 \e
+   -o tape-timeout=60 -o use-eject=1 \e
+   -r /dev/mc0 -o robot-timeout=60 \e
+   -m TapeOne@91/100m \e
+   -m TapeTwo@92/100m \e
+   -m TapeThree@93/100m
+.P
+
+.SH LIMITATIONS
+No provisions for partial (incremental) backups.
+.P
+No support for using tape drives in fixed-block mode.
+When added, the
+.B \-b
+options should be changed to take a blocking
+factor, something like
+.IB BLOCKSPERIO x BLOCKSIZE.
+.P
+It would be nice to have ndmpcopy functionality added.
+Options
+.B \-p
+and
+.B \-P
+are reserved for this purpose.
+.P
+Modes
+.B "\-o test-mover"
+and
+.B "\-o test-data"
+need to be completed.
+.P
+The NDMJOB DATA service is incomplete.
+This includes the wrappers for tar, dump, etc.
+.P
+No support for manual tape changes.
+A robot (media changer) is required for multiple tapes.
+.P
+The Mover portion of NDMJOB TAPE service needs to
+be reviewed and addressed.
+.P
+The pretty printers for the protocol messages need to
+be reviewed and addressed.
+.P
+Need support for NDMP4 Extensions added to
+.B \-q
+operation.
+.P
+The aesthetics of
+.B \-q
+should be improved.
+.P
+Tape simulator needs end-of-tape and early warning.
+.P
+The
+.B "\-o test-tape"
+test needs TAPE_RAW_MODE and early warnning added.
+.P
+Need two additional tests:
+.B "\-o test-connect"
+and
+.BR "\-o test-config" .
+.P
+Need
+.BI "\-o ie-addr=" ELEMADDR
+option for when there are multiple import/export doors.
+Use
+.B "\-o move"
+to workaround.
+.P
+Undoubtedly lots more.
+
+.SH COPYRIGHT
+Copyright (c) 1998-2002
+.br
+Traakan, Inc., Los Altos, CA
+.br
+All rights reserved.
+.P
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+.P
+1. Redistributions of source code must retain the above copyright
+notice unmodified, this list of conditions, and the following
+disclaimer.
+.P
+2. Redistributions in binary form must reproduce the above copyright
+notice, this list of conditions and the following disclaimer in the
+documentation and/or other materials provided with the distribution.
+.P
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+SUCH DAMAGE.
+
+.SH SEE ALSO
+.IR tar (1),
+.IR dump (1),
+.IR restore (1),
+.IR sort (1),
+.br
+http://www.ndmp.org/,
+http://www.traakan.com/ndmjob/

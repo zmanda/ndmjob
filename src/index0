@@ -1,0 +1,12 @@
+##ndmjob -I
+##ndmjob -J
+CM 01 +0/0
+DE BASE_DATE=-1
+DE DIRECT=N
+DE FILESYSTEM=/base
+DE HIST=Y
+DE LEVEL=0
+DE RUDY_SAYS=HI
+DE RUDY_SET=smokejig2
+DE TYPE=dump
+DE UPDATE=Y

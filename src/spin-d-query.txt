@@ -1,0 +1,66 @@
+#D   0:00:00.000 >C NDMP0_NOTIFY_CONNECTED 1
+#D   0:00:00.000    reason=NDMP0_CONNECTED protocol_version=3 text_reason='Connection successful'
+#D   0:00:00.000 C> NDMP0_CONNECT_OPEN 1
+#D   0:00:00.000    version=3
+#D   0:00:00.000 >R NDMP0_CONNECT_OPEN 1 (2)
+#D   0:00:00.000    error=NDMP0_NO_ERR
+#D   0:00:00.000 C> NDMP3_CONNECT_CLIENT_AUTH 2
+#D   0:00:00.000    auth_type=NDMP3_AUTH_TEXT auth_id=root
+#D   0:00:00.000 >R NDMP3_CONNECT_CLIENT_AUTH 2 (3)
+#D   0:00:00.001    error=NDMP3_NO_ERR
+QR   0:00:00.001 
+QR   0:00:00.001 Data Agent smokejig2.slab NDMPv3
+#D   0:00:00.001 C> NDMP3_CONFIG_GET_HOST_INFO 3
+#D   0:00:00.001 >R NDMP3_CONFIG_GET_HOST_INFO 3 (4)
+#D   0:00:00.001    error=NDMP3_NO_ERR hostname=smokejig2
+#D   0:00:00.001    os_type=SpinFS os_vers=2.6.0 hostid=ffffffff
+QR   0:00:00.001   Host info
+QR   0:00:00.001     hostname   smokejig2
+QR   0:00:00.001     os_type    SpinFS
+QR   0:00:00.001     os_vers    2.6.0
+QR   0:00:00.001     hostid     ffffffff
+QR   0:00:00.001 
+#D   0:00:00.001 C> NDMP3_CONFIG_GET_SERVER_INFO 4
+#D   0:00:00.001 >R NDMP3_CONFIG_GET_SERVER_INFO 4 (5)
+#D   0:00:00.001    <<unimplemented pp>>
+QR   0:00:00.001   Server info
+QR   0:00:00.001     vendor     Spinnaker Networks, LLC
+QR   0:00:00.001     product    SpinServer 3300
+QR   0:00:00.001     revision   NDMP_2.5_2.6.0_42622
+QR   0:00:00.002     auths      (2)  NDMP3_AUTH_TEXT NDMP3_AUTH_MD5
+QR   0:00:00.002 
+#D   0:00:00.002 C> NDMP3_CONFIG_GET_CONNECTION_TYPE 5
+#D   0:00:00.002 >R NDMP3_CONFIG_GET_CONNECTION_TYPE 5 (6)
+#D   0:00:00.002    error=NDMP3_NO_ERR addr_types[2]={ NDMP3_ADDR_LOCAL NDMP3_ADDR_TCP }
+QR   0:00:00.002   Connection types
+QR   0:00:00.002     addr_types (2)  NDMP3_ADDR_LOCAL NDMP3_ADDR_TCP
+QR   0:00:00.002 
+#D   0:00:00.002 C> NDMP3_CONFIG_GET_BUTYPE_INFO 6
+#D   0:00:00.002 >R NDMP3_CONFIG_GET_BUTYPE_INFO 6 (7)
+#D   0:00:00.002    <<unimplemented pp>>
+QR   0:00:00.002   Backup type info of dump format
+QR   0:00:00.002     attrs      0x3fd
+QR   0:00:00.002       backup-file-history   yes
+QR   0:00:00.002       backup-filelist   no
+QR   0:00:00.003       recover-filelist   yes
+QR   0:00:00.003       backup-direct   yes
+QR   0:00:00.003       recover-direct   yes
+QR   0:00:00.003       backup-incremental   yes
+QR   0:00:00.003       recover-incremental   yes
+QR   0:00:00.003       backup-utf8   yes
+QR   0:00:00.003       recover-utf8   yes
+QR   0:00:00.003       recover-file-history   yes
+QR   0:00:00.003     set        TYPE=dump
+QR   0:00:00.003     set        LEVEL=0
+QR   0:00:00.003     set        FILESYSTEM=
+QR   0:00:00.003     set        UPDATE=Y
+QR   0:00:00.003     set        HIST=N
+QR   0:00:00.003     set        RUDY_SAYS=HI
+QR   0:00:00.003     set        DIRECT=N
+QR   0:00:00.003     set        BASE_DATE=-1
+QR   0:00:00.003 
+#D   0:00:00.003 C> NDMP3_CONFIG_GET_FS_INFO 7
+#D   0:00:00.004 >R NDMP3_CONFIG_GET_FS_INFO 7 (8)
+#D   0:00:00.004    <<unimplemented pp>>
+QR   0:00:00.004   Empty fs info
+SESS 0:00:00.004 Operation complete
