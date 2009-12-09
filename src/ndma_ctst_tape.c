@@ -458,7 +458,7 @@ ndmca_tt_basic_write_and_read (struct ndm_session *sess)
 {
     int rc, i, f, pass;
     char buf[64*1024];
-    unsigned char	*p;
+    char *p;
 
     ndmca_test_phase (sess, "T-BWR", "Tape Write and Read Basics");
 
@@ -719,7 +719,8 @@ ndmca_tt_read (struct ndm_session *sess)
 				goto fail;
 #else
 			if (bcmp (buf, pbuf, recsize) != 0) {
-			    	unsigned char *expect_p = pbuf, *got_p = buf;
+			    	unsigned char *expect_p = (unsigned char *)pbuf;
+				unsigned char *got_p = (unsigned char *)buf;
 				int i, f;
 				for(f = i = 0;
 				    f < 64 && i < recsize;

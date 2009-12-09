@@ -864,7 +864,7 @@ ndmconn_readit (void *a_conn, char *buf, int len)
 		while (i < 4) {
 			c = 4 - i;
 
-			rc = ndmconn_sys_read (conn, conn->frag_hdr_buf+i, c);
+			rc = ndmconn_sys_read (conn, (void *)(conn->frag_hdr_buf+i), c);
 			if (rc <= 0) {
 				return rc;
 			}

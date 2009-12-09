@@ -81,7 +81,8 @@ NDMOS_OPTIONS = -DNDMOS_CONST_NDMJOBLIB_REVISION='"(spinnaker-2003)"'
 LIBS=
 #LIBS= /home/ern/sources/DMALLOC/dmalloc-4.8.2/libdmalloc.a
 DEFS = $(NDMOS_ID) $(NDMOS_OPTIONS)
-CFLAGS = -g $(DEFS) -Wall -O -Werror -D_LARGEFILE64_SOURCE
+# gcc gives unused-value warnings for *_xdr.c, which is generated code
+CFLAGS = -g $(DEFS) -Wall -O -Werror -Wno-unused-value -D_LARGEFILE64_SOURCE
 
 #FreeBSD
 #LIBS= -lcam
