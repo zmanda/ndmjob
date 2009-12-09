@@ -1,0 +1,7 @@
+*.o
+icheck
+ndmjob
+wrap_tar
+wrap_test
+*.rel
+icheck.c
