@@ -98,6 +98,7 @@ ndmta_init_mover_state (struct ndm_session *sess)
 
 	ta->mover_state.state = NDMP9_MOVER_STATE_IDLE;
 	ta->mover_state.window_offset = 0;
+	ta->mover_state.record_num = 0; /* this should probably be -1, but spec says 0 */
 	ta->mover_state.record_size = 20*512;	/* traditional tar default */
 	ta->mover_state.window_length = NDMP_LENGTH_INFINITY;
 	ta->mover_window_end = NDMP_LENGTH_INFINITY;
@@ -118,10 +119,7 @@ ndmta_init_mover_state (struct ndm_session *sess)
 void
 ndmta_mover_sync_state (struct ndm_session *sess)
 {
-	struct ndm_tape_agent *	ta = &sess->tape_acb;
-
 	ndmos_tape_sync_state (sess);
-	ta->mover_state.record_num = ta->tape_state.blockno.value;
 }
 
 ndmp9_error
@@ -434,6 +432,9 @@ ndmta_read_quantum (struct ndm_session *sess)
 			/* This ain't suppose to happen */
 		}
 		ta->mover_state.bytes_moved += count;
+		/* note this is calculated before mover_want_pos is incremented, since
+		 * record_num is the *last* block processed */
+		ta->mover_state.record_num = ta->mover_want_pos / ta->mover_state.record_size;
 		ta->mover_want_pos += count;
 		ch->beg_ix += count;
 		did_something++;
@@ -572,6 +573,9 @@ ndmta_write_quantum (struct ndm_session *sess)
 			goto again;
 		}
 		ta->tb_blockno = want_blockno;
+		/* re-calcluate this, since record_size may be > block_size, in which
+		 * case the record_num may not change for each block read from tape */
+		ta->mover_state.record_num = ta->mover_want_pos / ta->mover_state.record_size;
 	}
 
 	record_off = ta->mover_want_pos % ta->mover_state.record_size;
