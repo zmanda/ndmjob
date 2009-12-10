@@ -85,7 +85,7 @@ ndmos_tape_open (struct ndm_session *sess, char *drive_name, int will_write)
 	struct stat		st;
 	int			read_only, omode;
 	int			rc, fd;
-	char			pos_symlink_name[128];
+	char			pos_symlink_name[PATH_MAX];
 	char			pos_buf[32];
 	off_t			pos = -1;
 
@@ -112,8 +112,8 @@ ndmos_tape_open (struct ndm_session *sess, char *drive_name, int will_write)
 		return NDMP9_PERMISSION_ERR;
 	}
 
-	strcpy (pos_symlink_name, drive_name);
-	strcat (pos_symlink_name, ".pos");
+	snprintf(pos_symlink_name, sizeof pos_symlink_name, "%s.pos", drive_name);
+	pos_symlink_name[sizeof pos_symlink_name -1] = '\0';
 
 	if (st.st_size == 0) {
 		remove (pos_symlink_name);
@@ -169,7 +169,7 @@ ndmos_tape_open (struct ndm_session *sess, char *drive_name, int will_write)
 	remove (pos_symlink_name);
 	ta->tape_fd = fd;
 	NDMOS_API_BZERO (ta->drive_name, sizeof ta->drive_name);
-	strcpy (ta->drive_name, drive_name);
+	strncpy (ta->drive_name, drive_name, sizeof ta->drive_name - 1);
 	bzero (&ta->tape_state, sizeof ta->tape_state);
 	ta->tape_state.error = NDMP9_NO_ERR;
 	ta->tape_state.state = NDMP9_TAPE_STATE_OPEN;
@@ -204,11 +204,11 @@ ndmos_tape_close (struct ndm_session *sess)
 
 	cur_pos = lseek (ta->tape_fd, (off_t)0, 1);
 	if (cur_pos != -1) {
-		char		pos_symlink_name[128];
+		char		pos_symlink_name[PATH_MAX];
 		char		pos_buf[32];
 
-		strcpy (pos_symlink_name, ta->drive_name);
-		strcat (pos_symlink_name, ".pos");
+		snprintf(pos_symlink_name, sizeof pos_symlink_name, "%s.pos", ta->drive_name);
+		pos_symlink_name[sizeof pos_symlink_name -1] = '\0';
 		sprintf (pos_buf, "%ld", (long) cur_pos);
 		symlink (pos_buf, pos_symlink_name);
 	}
