@@ -807,6 +807,7 @@ struct ndm_tape_agent {
 	int			tape_fd;
 	char			drive_name[PATH_MAX];
 	int			weof_on_close;
+	int			sent_leom;
 
 	/* MOVER */
 	ndmp9_mover_get_state_reply mover_state;
