@@ -72,7 +72,7 @@ smc_parse_element_status_data (
 {
 	unsigned char *			p = (unsigned char *)raw;
 	unsigned char *			raw_end = p + raw_len;
-	int				n_elem = 0;
+	unsigned int			n_elem = 0;
 
 	bzero (elem_desc, sizeof elem_desc[0] * max_elem_desc);
 

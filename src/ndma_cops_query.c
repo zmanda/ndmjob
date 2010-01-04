@@ -172,7 +172,7 @@ int
 ndmca_opq_host_info (struct ndm_session *sess, struct ndmconn *conn)
 {
 	int		rc;
-	int		i;
+	unsigned int	i;
 	char		buf[100];
 
 	switch (conn->protocol_version) {
@@ -319,7 +319,7 @@ int
 ndmca_opq_get_mover_type (struct ndm_session *sess, struct ndmconn *conn)
 {
 	int		rc;
-	int		i;
+	unsigned int	i;
 	char		buf[100];
 
 	switch (conn->protocol_version) {
@@ -456,7 +456,7 @@ ndmca_opq_get_butype_attr (struct ndm_session *sess, struct ndmconn *conn)
 #ifndef NDMOS_OPTION_NO_NDMP3
 	case NDMP3VER:
 	    NDMC_WITH_VOID_REQUEST(ndmp3_config_get_butype_info, NDMP3VER)
-		int		i, j;
+		unsigned int	i, j;
 
 		rc = NDMC_CALL(conn);
 		if (rc) {
@@ -517,7 +517,7 @@ ndmca_opq_get_butype_attr (struct ndm_session *sess, struct ndmconn *conn)
 #ifndef NDMOS_OPTION_NO_NDMP4
 	case NDMP4VER:
 	    NDMC_WITH_VOID_REQUEST(ndmp4_config_get_butype_info, NDMP4VER)
-		int		i, j;
+		unsigned int	i, j;
 
 		rc = NDMC_CALL(conn);
 		if (rc) {
@@ -572,7 +572,7 @@ ndmca_opq_get_fs_info (struct ndm_session *sess, struct ndmconn *conn)
 #ifndef NDMOS_OPTION_NO_NDMP3
 	case NDMP3VER:
 	    NDMC_WITH_VOID_REQUEST(ndmp3_config_get_fs_info, NDMP3VER)
-		int		i, j;
+		unsigned int	i, j;
 
 		rc = NDMC_CALL(conn);
 		if (rc) {
@@ -633,7 +633,7 @@ ndmca_opq_get_fs_info (struct ndm_session *sess, struct ndmconn *conn)
 #ifndef NDMOS_OPTION_NO_NDMP4
 	case NDMP4VER:
 	    NDMC_WITH_VOID_REQUEST(ndmp4_config_get_fs_info, NDMP4VER)
-		int		i, j;
+		unsigned int	i, j;
 
 		rc = NDMC_CALL(conn);
 		if (rc) {
@@ -704,7 +704,7 @@ ndmca_opq_show_device_info (struct ndm_session *sess,
   ndmp9_device_info *info,
   unsigned n_info, char *what)
 {
-	int		i, j, k;
+	unsigned int	i, j, k;
 
 	for (i = 0; i < n_info; i++) {
 		ndmalogqr (sess, "  %s %s", what, info[i].model);

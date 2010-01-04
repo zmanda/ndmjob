@@ -886,8 +886,8 @@ ndmconn_readit (void *a_conn, char *buf, int len)
 		return i;
 	}
 
-	if (len > conn->frag_resid)
-		len = conn->frag_resid;
+	if ((unsigned int)len > conn->frag_resid)
+		len = (unsigned int)conn->frag_resid;
 
 	rc = ndmconn_sys_read (conn, buf, len);
 
@@ -949,7 +949,7 @@ ndmconn_sys_write (struct ndmconn *conn, char *buf, unsigned len)
 
 	ndmconn_snoop (conn, 8, "write=%d len=%d", rc, len);
 
-	if (rc != len) {
+	if (rc != (int)len) {
 		conn->chan.eof = 1;
 		conn->chan.error = 1;
 	}
@@ -1039,7 +1039,8 @@ ndmconn_hex_dump (struct ndmconn *conn, char *buf, unsigned len)
 	char *		tag = conn->chan.name;
 	char		linebuf[16*3+3];
 	char *		p = linebuf;
-	int		i, b;
+	int		b;
+	unsigned	i;
 
 	if (log && conn->snoop_level > 8) {
 		for (i = 0; i < len; i++) {

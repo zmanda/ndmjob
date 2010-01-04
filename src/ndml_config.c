@@ -131,12 +131,6 @@ ndmcfg_loadfp (FILE *fp, ndmp9_config_info *config_info)
 	return cb->n_error;
 }
 
-int
-ndmcfg_free (ndmp9_config_info *config_info)
-{
-	return -1;
-}
-
 /*
  * [butype BUTYPE]
  *	v2attr	0xATTR

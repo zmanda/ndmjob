@@ -721,7 +721,7 @@ ndmca_tt_read (struct ndm_session *sess)
 			if (bcmp (buf, pbuf, recsize) != 0) {
 			    	unsigned char *expect_p = (unsigned char *)pbuf;
 				unsigned char *got_p = (unsigned char *)buf;
-				int i, f;
+				unsigned int i, f;
 				for(f = i = 0;
 				    f < 64 && i < recsize;
 				    i++, expect_p++, got_p++) {
@@ -983,7 +983,7 @@ ndmca_tt_check_fileno_recno (struct ndm_session *sess,
 		goto fail;
 
 	oper = "check blockno";
-	if ((ts->blockno.value != blockno) && (ts->blockno.value != -1))
+	if ((ts->blockno.value != blockno) && (ts->blockno.value != NDMP9_INVALID_U_LONG))
 		goto fail;
 
 	return 0;

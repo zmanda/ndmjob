@@ -101,7 +101,7 @@ ndmca_op_recover_files (struct ndm_session *sess)
 	if (rc == 0) {
 	    if (ca->recover_log_file_count > 0) {
 		struct ndm_control_agent *ca = &sess->control_acb;
-		unsigned int		n_nlist = ca->job.nlist_tab.n_nlist;
+		int		    n_nlist = ca->job.nlist_tab.n_nlist;
 
 		ndmalogf (sess, 0, 0,
 			  "LOG_FILE messages: %d OK, %d ERROR, total %d of %d",
