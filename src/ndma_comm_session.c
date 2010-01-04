@@ -370,7 +370,7 @@ ndma_session_initialize (struct ndm_session *sess)
 #endif /* !NDMOS_OPTION_NO_TAPE_AGENT */
 
 #ifndef NDMOS_OPTION_NO_ROBOT_AGENT
-	/* ndmra_initialize (sess); */
+	ndmra_initialize (sess);
 #endif /* !NDMOS_OPTION_NO_ROBOT_AGENT */
 
 	return 0;
@@ -394,7 +394,7 @@ ndma_session_commission (struct ndm_session *sess)
 #endif /* !NDMOS_OPTION_NO_TAPE_AGENT */
 
 #ifndef NDMOS_OPTION_NO_ROBOT_AGENT
-	/* ndmra_commission (sess); */
+	ndmra_commission (sess);
 #endif /* !NDMOS_OPTION_NO_ROBOT_AGENT */
 
 	return 0;
@@ -418,7 +418,7 @@ ndma_session_decommission (struct ndm_session *sess)
 #endif /* !NDMOS_OPTION_NO_TAPE_AGENT */
 
 #ifndef NDMOS_OPTION_NO_ROBOT_AGENT
-	/* ndmra_decommission (sess); */
+	ndmra_decommission (sess);
 #endif /* !NDMOS_OPTION_NO_ROBOT_AGENT */
 
 	return 0;

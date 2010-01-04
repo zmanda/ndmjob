@@ -129,6 +129,7 @@ NDMJLA_OBJS = \
 	ndma_noti_calls.o \
 	ndma_tape.o \
 	ndma_tape_simulator.o \
+	ndma_robot_simulator.o \
 	ndma_robot.o \
 	wraplib.o
 
