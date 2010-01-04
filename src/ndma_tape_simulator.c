@@ -127,10 +127,16 @@ ndmos_tape_open (struct ndm_session *sess, char *drive_name, int will_write)
 			gap.rectype = SIMU_GAP_RT_BOT;
 			gap.size = 0;
 			gap.prev_size = 0;
-			write (fd, &gap, sizeof gap);
+			if (write (fd, &gap, sizeof gap) < (int)sizeof gap) {
+			    close(fd);
+			    return NDMP9_IO_ERR;
+			}
 
 			gap.rectype = SIMU_GAP_RT_EOT;
-			write (fd, &gap, sizeof gap);
+			if (write (fd, &gap, sizeof gap) < (int)sizeof gap) {
+			    close(fd);
+			    return NDMP9_IO_ERR;
+			}
 			lseek (fd, (off_t)0, 0);
 		} else {
 			goto skip_header_check;
@@ -577,7 +583,8 @@ ndmos_tape_write (struct ndm_session *sess,
 	}
 
 
-	ftruncate (ta->tape_fd, cur_pos);
+	if (ftruncate (ta->tape_fd, cur_pos) < 0)
+	    return NDMP9_IO_ERR;
 
 	lseek (ta->tape_fd, cur_pos, 0);
 
@@ -585,7 +592,8 @@ ndmos_tape_write (struct ndm_session *sess,
 	gap.size = 0;
 	gap.prev_size = prev_size;
 
-	write (ta->tape_fd, &gap, sizeof gap);
+	if (write (ta->tape_fd, &gap, sizeof gap) < (int)sizeof gap)
+	    return NDMP9_IO_ERR;
 	lseek (ta->tape_fd, cur_pos, 0);
 
 	if (o_tape_limit) {
@@ -658,14 +666,16 @@ ndmos_tape_wfm (struct ndm_session *sess)
 		err = NDMP9_IO_ERR;
 	}
 
-	ftruncate (ta->tape_fd, cur_pos);
+	if (ftruncate (ta->tape_fd, cur_pos) < 0)
+	    return NDMP9_IO_ERR;
 	lseek (ta->tape_fd, cur_pos, 0);
 
 	gap.rectype = SIMU_GAP_RT_EOT;
 	gap.size = 0;
 	gap.prev_size = prev_size;
 
-	write (ta->tape_fd, &gap, sizeof gap);
+	if (write (ta->tape_fd, &gap, sizeof gap) < (int)sizeof gap)
+		return NDMP9_IO_ERR;
 	lseek (ta->tape_fd, cur_pos, 0);
 
 	if (o_tape_limit) {
