@@ -256,7 +256,15 @@ ndmta_mover_start_active (struct ndm_session *sess)
 void
 ndmta_mover_stop (struct ndm_session *sess)
 {
-	ndmta_init_mover_state (sess);
+	/* don't call ndmta_init_mover_state here, because that incorrectly
+	 * resets the record_size */
+	ta->mover_state.state = NDMP9_MOVER_STATE_IDLE;
+	ta->mover_state.window_offset = 0;
+	ta->mover_state.record_num = 0; /* this should probably be -1, but spec says 0 */
+	ta->mover_state.window_length = NDMP_LENGTH_INFINITY;
+	ta->mover_window_end = NDMP_LENGTH_INFINITY;
+	ta->mover_want_pos = 0;
+	ta->tb_blockno = -1;
 }
 
 void
