@@ -129,6 +129,9 @@ Clean up zee mess (put robot right)
 \-o init-labels
 Initialize media labels.
 .TP
+\-o tape-limit=NN
+Maximum size, in bytes, of tape simulator tapes.
+.TP
 \-o daemon
 Launch session for incomming connections
 .TP
@@ -877,6 +880,15 @@ marks interspersed with the written data.
 The disk file must exist, can be initialized as an empty file,
 and the tape simulator creates a symbolic link to keep
 track of position.
+Each tape device can only be opened by one agent at a time;
+subsequent opens will receive an error.
+.P
+The tape simulator will, by default, write until it receives
+an error (e.g., ENOSPC) from the operating system.  With the
+.B -o tape-limit
+option, a physical EOM will be simulated at the given limit, and
+a logical EOM about 64k earlier.
+.P
 See
 .B ndma_tape_simulator.c
 for details.
@@ -900,6 +912,38 @@ ndmjob -x -D delta,user,pass -B dump \e
 ndmjob -x -D delta,user,pass -B dump \e
    -J index -C /export \e
    -T. -f FakeTape
+.P
+.SS Using the robot simulator
+NDMJOB contains a built-in robot simulator that can be used in daemon mode
+or by specifying a local ROBOT agent.
+It is hard-coded to contain 10 storage slots, two import/export slots, two
+drives, and one robot arm, although this is easily changed in the source.
+The robot device name should specify a directory in which the robot's state and
+the tape data can be stored.
+.P
+The robot will create a persistent
+.BR state
+file in this directory containing the state of the robot (drives loaded,
+volume tags, etc.).  Drives are represented as files named
+.BR driveNN
+in the robot directory, and can be opened directly by the tape simulator.
+Tapes that are not loaded in a drive are named
+.BR slotNN
+or
+.BR ieNN
+although such files should not be accessed directly.
+.P
+See
+.B ndma_robot_simulator.c
+for details.
+.P
+.nf
+.na
+.ft CR
+ndmjob -R . -r /tmp/robot -R. -q
+
+ndmjob -R . -r /tmp/robot -R. \e
+    -o move -o from-slot=1024 -o to-slot=128
 .P
 .SS Using \-o test-tape
 These example shows how to use the conformance
