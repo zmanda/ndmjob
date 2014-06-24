@@ -256,6 +256,7 @@ ndmta_mover_start_active (struct ndm_session *sess)
 void
 ndmta_mover_stop (struct ndm_session *sess)
 {
+	struct ndm_tape_agent *	ta = &sess->tape_acb;
 	/* don't call ndmta_init_mover_state here, because that incorrectly
 	 * resets the record_size */
 	ta->mover_state.state = NDMP9_MOVER_STATE_IDLE;
