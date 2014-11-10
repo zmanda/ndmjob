@@ -85,28 +85,27 @@ ndmos_tape_initialize (struct ndm_session *sess)
 static int
 touch_tape_lockfile(char *drive_name)
 {
-    char *lockfile_name;
+    char *lockfile_name = malloc(strlen(drive_name+5));
     int fd;
-
-    lockfile_name = g_strdup_printf("%s.lck", drive_name);
+    sprintf(lockfile_name, "%s.lck", drive_name);
     if ((fd = open(lockfile_name, O_CREAT|O_EXCL, 0666)) < 0) {
-	g_free(lockfile_name);
+	free(lockfile_name);
 	return -1;
     }
 
     close(fd);
-    g_free(lockfile_name);
+    free(lockfile_name);
     return 0;
 }
 
 static void
 unlink_tape_lockfile(char *drive_name)
 {
-    char *lockfile_name;
+    char *lockfile_name = malloc(strlen(drive_name+5));;
 
-    lockfile_name = g_strdup_printf("%s.lck", drive_name);
+    sprintf(lockfile_name, "%s.lck", drive_name);
     unlink(lockfile_name);
-    g_free(lockfile_name);
+    free(lockfile_name);
 }
 
 ndmp9_error

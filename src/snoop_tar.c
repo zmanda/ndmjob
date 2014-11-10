@@ -41,7 +41,7 @@
 
 
 static long	from_oct (int digs, char *where);
-static int	strnlen (char *s, int maxlen);
+//static int	strnlen (char *s, int maxlen);
 static int	raw_sum (unsigned char *buf, int n);
 
 
@@ -313,10 +313,10 @@ from_oct (int digs, char *where)
   return value;
 }
 
-static int
-strnlen (char *s, int maxlen) {
-	return strlen(s);
-}
+//static int
+//strnlen (char *s, int maxlen) {
+//	return strlen(s);
+//}
 
 static int
 raw_sum (unsigned char *buf, int n) {
